@@ -16,6 +16,11 @@ namespace SeasonTableFun
 
         public int GoalDifference => GoalsScored - GoalsConceded;
 
+        public int Won { get; set; }
+        public int Draws { get; set; }
+        public int Lost { get; set; }
+
+
 
         public TableLine(Team team) 
         {

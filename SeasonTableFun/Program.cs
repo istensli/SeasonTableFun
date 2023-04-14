@@ -44,7 +44,7 @@ seasonTable.AddMatch(new Match(superligaArg[10], superligaArg[11], 1, 2));
 
 seasonTable.Show();
 
-
+seasonTable.PrintLastFiveMatches();
 
 
 

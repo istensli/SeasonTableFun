@@ -17,6 +17,25 @@
 
         }
 
+        public void PrintLastFiveMatches() 
+        {
+            int matchesIndexToStart = _matches.Count - 5;
+            if (_matches.Count - 5 < 0) matchesIndexToStart = 0;
+
+            Console.Write("\n\n");
+            for (int i = (matchesIndexToStart); i < _matches.Count; i++)
+            {
+                Console.WriteLine($"{_matches[i].HomeTeam.Name}".PadRight(30) + "\t - \t" +
+                    $"{_matches[i].AwayTeam.Name}".PadRight(30) +
+                    $"{_matches[i].HomeScore} - {_matches[i].AwayScore}".PadRight(30));
+            }
+        }
+
+
+        //denner metode er for stor. foreslår å dele opp i: -private List<TableLine> CreateTableLines(), eller??
+        //                                                 - private List<TableLine> AddMatchesToTableLines(List<TableLine> tableLines)
+        //                                                  -private List<TableLine> GetSortedTableLines(List<TableLine> tableLines)
+                                                            //-Show kan kjøre de tre over, så kjøre Console.Writeline...
         public void Show()
         {       
             var tableLines = new List<TableLine>();
@@ -38,12 +57,22 @@
                 tableLines[indexOfAwayTeam].GoalsConceded += match.HomeScore;
 
                 if (indexOfHomeTeam != -1 && match.HomeScore > match.AwayScore)
+                {
+                    tableLines[indexOfHomeTeam].Won++;
+                    tableLines[indexOfAwayTeam].Lost++;
                     tableLines[indexOfHomeTeam].AddPoints(3);
+                }
 
                 else if (indexOfAwayTeam != -1 && match.HomeScore < match.AwayScore)
+                {
+                    tableLines[indexOfAwayTeam].Won++;
+                    tableLines[indexOfHomeTeam].Lost++;
                     tableLines[indexOfAwayTeam].AddPoints(3);
-                else 
+                }
+                else
                 {   //ved uavgjort deles ut ett poeng til hver
+                    tableLines[indexOfHomeTeam].Draws++;
+                    tableLines[indexOfAwayTeam].Draws++;
                     tableLines[indexOfHomeTeam].AddPoints(1);
                     tableLines[indexOfAwayTeam].AddPoints(1);
 
@@ -54,16 +83,26 @@
                 .ThenByDescending(l => l.GoalsScored)
                 .ThenBy(l => l.Team.Name).ToList();
 
-            Console.WriteLine("Lag".PadRight(30) + "Antall kamper".PadRight(20) + "Scorede mål".PadRight(20) + "Baklengsmål".PadRight(20) +
-                "Målforskjell".PadRight(20)  + "Poeng".PadRight(20));
+            Console.WriteLine("Lag".PadRight(30) + "Kamper".PadRight(10) +
+                "Vunnet".PadRight(10) +
+                "Tapt".PadRight(10) +
+                "Uavgjorte".PadRight(10) +
+                "Scorede".PadRight(10) +
+                "Baklengs".PadRight(10) +
+                "Målforskjell".PadRight(15) +
+                "Poeng".PadRight(10));
+
             for (int i = 0; i < sortedTableLines.Count; i++) 
             {
                 Console.WriteLine($"{i+1}.{sortedTableLines[i].Team.Name.PadRight(30)}" +
-                                    $"{Convert.ToString(sortedTableLines[i].NumberOfMatchesPlayed).PadRight(20)}" +
-                                    $"{Convert.ToString(sortedTableLines[i].GoalsScored).PadRight(20)}" +
-                                    $"{Convert.ToString(sortedTableLines[i].GoalsConceded).PadRight(20)}" +
-                                    $"{Convert.ToString(sortedTableLines[i].GoalDifference).PadRight(20)}" +
-                                    $"{Convert.ToString(sortedTableLines[i].Points).PadRight(20)}");
+                                    $"{Convert.ToString(sortedTableLines[i].NumberOfMatchesPlayed).PadRight(10)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].Won).PadRight(10)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].Lost).PadRight(10)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].Draws).PadRight(10)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].GoalsScored).PadRight(10)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].GoalsConceded).PadRight(10)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].GoalDifference).PadRight(15)}" +
+                                    $"{Convert.ToString(sortedTableLines[i].Points).PadRight(10)}");
             }
 
 
