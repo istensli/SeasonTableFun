@@ -34,10 +34,7 @@ namespace SeasonTableFun
         }
 
 
-        //denner metode er for stor. foreslår å dele opp i: -private List<TableLine> CreateTableLines(), eller??
-        //                                                 - private List<TableLine> AddMatchesToTableLines(List<TableLine> tableLines)
-        //                                                  -private List<TableLine> GetSortedTableLines(List<TableLine> tableLines)
-        //-Show kan kjøre de tre over, så kjøre Console.Writeline...
+       
 
         private List<TableLine> CreateTableLines() 
         {
