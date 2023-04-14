@@ -1,4 +1,6 @@
-﻿namespace SeasonTableFun
+﻿using System.Collections.Generic;
+
+namespace SeasonTableFun
 {
     internal class SeasonTable
     {
@@ -35,16 +37,23 @@
         //denner metode er for stor. foreslår å dele opp i: -private List<TableLine> CreateTableLines(), eller??
         //                                                 - private List<TableLine> AddMatchesToTableLines(List<TableLine> tableLines)
         //                                                  -private List<TableLine> GetSortedTableLines(List<TableLine> tableLines)
-                                                            //-Show kan kjøre de tre over, så kjøre Console.Writeline...
-        public void Show()
-        {       
+        //-Show kan kjøre de tre over, så kjøre Console.Writeline...
+
+        private List<TableLine> CreateTableLines() 
+        {
             var tableLines = new List<TableLine>();
-            foreach (var team in _teams) 
+            foreach (var team in _teams)
             {
                 tableLines.Add(new TableLine(team));
             }
+            return tableLines;
 
-            foreach (Match match in _matches) 
+        }
+
+        //kunne hatt annet navn i og med at den returnerer en liste
+        private List<TableLine> AddMatchesToTableLines(List<TableLine> tableLines) 
+        {
+            foreach (Match match in _matches)
             {
                 int indexOfHomeTeam = tableLines.FindIndex(l => l.Team == match.HomeTeam);
                 int indexOfAwayTeam = tableLines.FindIndex(l => l.Team == match.AwayTeam);
@@ -78,10 +87,31 @@
 
                 }
             }
+            return tableLines;
+
+        }
+
+        private List<TableLine> GetSortedTableLines(List<TableLine> tableLines)
+        {
             var sortedTableLines = tableLines.OrderByDescending(l => l.Points)
-                .ThenByDescending(l => l.GoalDifference)
-                .ThenByDescending(l => l.GoalsScored)
-                .ThenBy(l => l.Team.Name).ToList();
+               .ThenByDescending(l => l.GoalDifference)
+               .ThenByDescending(l => l.GoalsScored)
+               .ThenBy(l => l.Team.Name).ToList();
+            return sortedTableLines;
+
+        }
+
+
+
+
+        public void Show()
+        {
+            
+
+            var sortedTableLines = GetSortedTableLines(AddMatchesToTableLines(CreateTableLines()));
+            
+
+
 
             Console.WriteLine("Lag".PadRight(30) + "Kamper".PadRight(10) +
                 "Vunnet".PadRight(10) +
