@@ -52,7 +52,7 @@
             var sortedTableLines = tableLines.OrderByDescending(l => l.Points)
                 .ThenByDescending(l => l.GoalDifference)
                 .ThenByDescending(l => l.GoalsScored)
-                .ThenBy(l => l.Team.Name).ToList();//etterhvert sortere på målforskjell osv
+                .ThenBy(l => l.Team.Name).ToList();
 
             Console.WriteLine("Lag".PadRight(30) + "Antall kamper".PadRight(20) + "Scorede mål".PadRight(20) + "Baklengsmål".PadRight(20) +
                 "Målforskjell".PadRight(20)  + "Poeng".PadRight(20));
