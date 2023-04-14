@@ -54,6 +54,9 @@ namespace SeasonTableFun
             {
                 int indexOfHomeTeam = tableLines.FindIndex(l => l.Team == match.HomeTeam);
                 int indexOfAwayTeam = tableLines.FindIndex(l => l.Team == match.AwayTeam);
+
+                if (indexOfHomeTeam == -1 || indexOfAwayTeam == -1) return null;
+
                 tableLines[indexOfHomeTeam].GoalsScored += match.HomeScore;
                 tableLines[indexOfHomeTeam].GoalsConceded += match.AwayScore;
                 tableLines[indexOfHomeTeam].NumberOfMatchesPlayed++;
@@ -62,14 +65,14 @@ namespace SeasonTableFun
                 tableLines[indexOfAwayTeam].GoalsScored += match.AwayScore;
                 tableLines[indexOfAwayTeam].GoalsConceded += match.HomeScore;
 
-                if (indexOfHomeTeam != -1 && match.HomeScore > match.AwayScore)
+                if (match.HomeScore > match.AwayScore)
                 {
                     tableLines[indexOfHomeTeam].Won++;
                     tableLines[indexOfAwayTeam].Lost++;
                     tableLines[indexOfHomeTeam].AddPoints(3);
                 }
 
-                else if (indexOfAwayTeam != -1 && match.HomeScore < match.AwayScore)
+                else if (match.HomeScore < match.AwayScore)
                 {
                     tableLines[indexOfAwayTeam].Won++;
                     tableLines[indexOfHomeTeam].Lost++;
