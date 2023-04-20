@@ -34,9 +34,7 @@ namespace SeasonTableFun
             Console.Write("\n\n");
             for (int i = (matchesIndexToStart); i < _matches.Count; i++)
             {
-                Console.WriteLine($"{_matches[i].HomeTeam.Name}".PadRight(30) + "\t - \t" +
-                    $"{_matches[i].AwayTeam.Name}".PadRight(30) +
-                    $"{_matches[i].HomeScore} - {_matches[i].AwayScore}".PadRight(30));
+                Console.WriteLine(_matches[i].GetMatchAsText());
             }
         }
 

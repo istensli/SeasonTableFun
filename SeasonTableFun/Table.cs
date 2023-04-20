@@ -27,38 +27,42 @@ namespace SeasonTableFun
             }
 
         }
+
+        private void AddMatchToTable(TableLine homeTeam, TableLine awayTeam, Match match) 
+        {
+            if (match.HomeScore > match.AwayScore)
+            {
+                homeTeam.AddWin(match.HomeScore, match.AwayScore);
+                awayTeam.AddDefeat(match.AwayScore, match.HomeScore);
+
+            }
+            else if (match.HomeScore < match.AwayScore)
+            {
+                awayTeam.AddWin(match.AwayScore, match.HomeScore);
+                homeTeam.AddDefeat(match.HomeScore, match.AwayScore);
+
+            }
+            else
+            {
+                homeTeam.AddDraw(match.HomeScore, match.AwayScore);
+                awayTeam.AddDraw(match.AwayScore, match.HomeScore);
+
+            }
+
+        }
+
         private void AddMatchesToTable(List<Match> matches)
         {
             
             foreach (Match match in matches)
             {
                 
-
+                //homeTeam og awayTeam er objekter av typen TableLine
                 var homeTeam = _tableLines.Find(l => l.Team == match.HomeTeam);
                 var awayTeam = _tableLines.Find(l => l.Team == match.AwayTeam);
                 //logikk for å håndtere at den ikke finner laget...??
 
-               
-
-                if (match.HomeScore > match.AwayScore)
-                {
-                    homeTeam.AddWin(match.HomeScore, match.AwayScore);
-                    awayTeam.AddDefeat(match.AwayScore, match.HomeScore);
-
-                }
-                else if (match.HomeScore < match.AwayScore)
-                {
-                    awayTeam.AddWin(match.AwayScore, match.HomeScore);
-                    homeTeam.AddDefeat(match.HomeScore, match.AwayScore);
-
-                }
-                else
-                {
-                    homeTeam.AddDraw(match.HomeScore, match.AwayScore);
-                    awayTeam.AddDraw(match.AwayScore, match.HomeScore);
-                   
-                }
-
+                AddMatchToTable(homeTeam, awayTeam, match);
 
             }
             //return 0;
