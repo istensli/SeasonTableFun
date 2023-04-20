@@ -84,9 +84,20 @@ namespace SeasonTableFun
 
 
 
-        public string GetTableLine() //ikke i bruk
+        public void PrintTableLine(int index) 
         {
-            return $"{Team.Name} \t {Points}";
+            Table.WriteLineWithPadding($"{index + 1}.",
+                                    $"{Team.Name}",
+                                    $"{NumberOfMatchesPlayed}",
+                                    $"{Won}",
+                                    $"{Lost}",
+                                    $"{Draws}",
+                                    $"{GoalsScored}",
+                                    $"{GoalsConceded}",
+                                    $"{GoalDifference}",
+                                    $"{GetLastFive()}",
+                                    $"{Points}");
+            
         }
     }
 }

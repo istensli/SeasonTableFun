@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -80,29 +81,29 @@ namespace SeasonTableFun
         }
         public void PrintTable()
         {
-            Console.WriteLine("Lag".PadRight(30) + "Kamper".PadRight(10) +
-                "Vunnet".PadRight(10) +
-                "Tapt".PadRight(10) +
-                "Uavgjorte".PadRight(10) +
-                "Scorede".PadRight(10) +
-                "Baklengs".PadRight(10) +
-                "Målforskjell".PadRight(15) +
-                "Siste fem".PadRight(10) +
-                "Poeng".PadRight(10));
+            WriteLineWithPadding("", "Lag", "Kamper", "Vunnet", "Tapt", "Uavgjorte", "Scorede", "Baklengs", "Målforskjell", "Siste fem", "Poeng");
+
 
             for (int i = 0; i < _tableLines.Count; i++)
             {
-                Console.WriteLine($"{i + 1}.{_tableLines[i].Team.Name}".PadRight(30) +
-                                    $"{_tableLines[i].NumberOfMatchesPlayed}".PadRight(10) +
-                                    $"{_tableLines[i].Won}".PadRight(10) +
-                                    $"{_tableLines[i].Lost}".PadRight(10) +
-                                    $"{_tableLines[i].Draws}".PadRight(10) +
-                                    $"{_tableLines[i].GoalsScored}".PadRight(10) +
-                                    $"{_tableLines[i].GoalsConceded}".PadRight(10) +
-                                    $"{_tableLines[i].GoalDifference}".PadRight(15) +
-                                    $"{_tableLines[i].GetLastFive()}".PadRight(10) +
-                                    $"{_tableLines[i].Points}".PadRight(10));
+                _tableLines[i].PrintTableLine(i);
             }
+        }
+
+        public static void WriteLineWithPadding(params string[] texts)
+        {
+            for (var index = 0; index < texts.Length; index++)
+            {
+                var padding = index switch
+                {
+                    0 => 0,
+                    1 => 30,
+                    8 => 15,
+                    _ => 10
+                };
+                Console.Write(texts[index].PadRight(padding));
+            }
+            Console.WriteLine();
         }
     }
 }
