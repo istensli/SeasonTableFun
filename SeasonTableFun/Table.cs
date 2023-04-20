@@ -27,48 +27,44 @@ namespace SeasonTableFun
             }
 
         }
-        private int AddMatchesToTable(List<Match> matches)
+        private void AddMatchesToTable(List<Match> matches)
         {
+            
             foreach (Match match in matches)
             {
-                int indexOfHomeTeam = _tableLines.FindIndex(l => l.Team == match.HomeTeam);
-                int indexOfAwayTeam = _tableLines.FindIndex(l => l.Team == match.AwayTeam);
+                
 
-                if (indexOfHomeTeam == -1 || indexOfAwayTeam == -1) return 1;
+                var homeTeam = _tableLines.Find(l => l.Team == match.HomeTeam);
+                var awayTeam = _tableLines.Find(l => l.Team == match.AwayTeam);
+                //logikk for å håndtere at den ikke finner laget...??
 
-                _tableLines[indexOfHomeTeam].GoalsScored += match.HomeScore;
-                _tableLines[indexOfHomeTeam].GoalsConceded += match.AwayScore;
-                _tableLines[indexOfHomeTeam].NumberOfMatchesPlayed++;
-                _tableLines[indexOfAwayTeam].NumberOfMatchesPlayed++;
-
-                _tableLines[indexOfAwayTeam].GoalsScored += match.AwayScore;
-                _tableLines[indexOfAwayTeam].GoalsConceded += match.HomeScore;
+               
 
                 if (match.HomeScore > match.AwayScore)
                 {
-                    _tableLines[indexOfHomeTeam].Won++;
-                    _tableLines[indexOfAwayTeam].Lost++;
-                    _tableLines[indexOfHomeTeam].AddPoints(3);
-                }
+                    homeTeam.AddWin(match.HomeScore, match.AwayScore);
+                    awayTeam.AddDefeat(match.AwayScore, match.HomeScore);
 
+                }
                 else if (match.HomeScore < match.AwayScore)
                 {
-                    _tableLines[indexOfAwayTeam].Won++;
-                    _tableLines[indexOfHomeTeam].Lost++;
-                    _tableLines[indexOfAwayTeam].AddPoints(3);
+                    awayTeam.AddWin(match.AwayScore, match.HomeScore);
+                    homeTeam.AddDefeat(match.HomeScore, match.AwayScore);
+
                 }
                 else
-                {   //ved uavgjort deles ut ett poeng til hver
-                    _tableLines[indexOfHomeTeam].Draws++;
-                    _tableLines[indexOfAwayTeam].Draws++;
-                    _tableLines[indexOfHomeTeam].AddPoints(1);
-                    _tableLines[indexOfAwayTeam].AddPoints(1);
-
+                {
+                    homeTeam.AddDraw(match.HomeScore, match.AwayScore);
+                    awayTeam.AddDraw(match.AwayScore, match.HomeScore);
+                   
                 }
 
+
             }
-            return 0;
+            //return 0;
         }
+
+
         //egentlig kunne PrintTable kjørt SortTable()
         public void SortTable()
         {
@@ -87,6 +83,7 @@ namespace SeasonTableFun
                 "Scorede".PadRight(10) +
                 "Baklengs".PadRight(10) +
                 "Målforskjell".PadRight(15) +
+                "Siste fem".PadRight(10) +
                 "Poeng".PadRight(10));
 
             for (int i = 0; i < _tableLines.Count; i++)
@@ -99,6 +96,7 @@ namespace SeasonTableFun
                                     $"{_tableLines[i].GoalsScored}".PadRight(10) +
                                     $"{_tableLines[i].GoalsConceded}".PadRight(10) +
                                     $"{_tableLines[i].GoalDifference}".PadRight(15) +
+                                    $"{_tableLines[i].GetLastFive()}".PadRight(10) +
                                     $"{_tableLines[i].Points}".PadRight(10));
             }
         }

@@ -9,6 +9,9 @@ namespace SeasonTableFun
     internal class TableLine
     {
         public Team Team { get; }
+
+        public List<char> _lastFive = new List<char>();
+        
         public int Points { get; set; }
         public int NumberOfMatchesPlayed { get; set; }
         public int GoalsScored { get; set; }
@@ -30,6 +33,57 @@ namespace SeasonTableFun
         {
             Points += points;
         }
+
+        
+        public void AddWin(int goalsScored, int goalsConceded)
+        {
+            Won++;
+            AddPoints(3);
+            NumberOfMatchesPlayed++;
+            GoalsScored += goalsScored;
+            GoalsConceded += goalsConceded;
+            _lastFive.Add('W');
+            if(_lastFive.Count > 5) _lastFive.RemoveAt(0);
+
+
+        }
+
+        public void AddDefeat(int goalsScored, int goalsConceded)
+        {
+            Lost++;
+            NumberOfMatchesPlayed++;
+            GoalsScored += goalsScored;
+            GoalsConceded += goalsConceded;
+            _lastFive.Add('L');
+            if (_lastFive.Count > 5) _lastFive.RemoveAt(0);
+
+
+        }
+        public void AddDraw(int goalsScored, int goalsConceded)
+        {
+            Draws++;
+            AddPoints(1);
+            NumberOfMatchesPlayed++;
+            GoalsScored += goalsScored;
+            GoalsConceded += goalsConceded;
+            _lastFive.Add('D');
+            if (_lastFive.Count > 5) _lastFive.RemoveAt(0); //hmm...burde kanskje fjerne alle eldre enn siste 5, ikke bare den siste(hvis det har blitt noe feil..)?
+
+
+        }
+        public string GetLastFive() 
+        {
+            string lastFive = "";
+            foreach(var match in _lastFive) 
+            {
+                lastFive += match;
+            }
+            return lastFive;
+        }
+
+
+
+
         public string GetTableLine() //ikke i bruk
         {
             return $"{Team.Name} \t {Points}";

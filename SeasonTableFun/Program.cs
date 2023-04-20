@@ -1,53 +1,35 @@
 ﻿using SeasonTableFun;
 
-var superligaArg = new Team[] {new Team("Boca Juniors"),
-                            new Team("River Plate"),
-                            new Team("Racing Club"),
-                            new Team("Independiente"),
-                            new Team("San Lorenzo"),
-                            new Team("Newell's Old Boys"),
-                            new Team("Rosario Central"),
-                            new Team("Vélez Sársfield"),
-                            new Team("Huracan"),
-                            new Team("Estudiantes"),
-                            new Team("Talleres"),
-                            new Team("Lanús"),
-                            new Team("Banfield"),
-                            new Team("Argentinos Juniors"),
-                            new Team("Gimnasia"),
-                            new Team("Colón"),
-                            new Team("Belgrano"),
-                            new Team("Instituto"),
-                            new Team("Godoy Cruz"),
-                            new Team("Tigre"),
-                            new Team("Sarmiento"),
-                            new Team("Unión de Santa Fe"),
-                            new Team("Barracas Central"),
-                            new Team("Atletico Tucuman"),
-                            new Team("Platense"),
-                            new Team("Defensa y Justicia"),
-                            new Team("Arsenal de Sarandí"),
-                            new Team("Central Cordoba")
-                            };
 
-var seasonTable = new SeasonTable(superligaArg);
 
-seasonTable.AddMatch(new Match(superligaArg[0], superligaArg[1], 1, 4));
-seasonTable.AddMatch(new Match(superligaArg[2], superligaArg[3], 2, 1));
-seasonTable.AddMatch(new Match(superligaArg[4], superligaArg[5], 0, 2));
-seasonTable.AddMatch(new Match(superligaArg[6], superligaArg[7], 1, 1));
-seasonTable.AddMatch(new Match(superligaArg[8], superligaArg[9], 0, 0));
-seasonTable.AddMatch(new Match(superligaArg[10], superligaArg[11], 1, 2));
 
-seasonTable.AddMatch(new Match(superligaArg[1], superligaArg[13], 2, 1));
+var theBigSix = new[] { "Boca Juniors", "River Plate", "Racing Club" , "Independiente", "San Lorenzo", "Huracán"};
 
+var seasonTable = new SeasonTable(theBigSix);
+
+seasonTable.AddMatch(0, 1, 1, 4);
+seasonTable.AddMatch(2, 3, 2, 1);
+seasonTable.AddMatch(4, 5, 0, 2);
+
+seasonTable.AddMatch(1, 0, 2, 2);
+seasonTable.AddMatch(3, 2, 1, 1);
+seasonTable.AddMatch(5, 4, 3, 2);
+
+seasonTable.AddMatch(0, 2, 2, 2);
+seasonTable.AddMatch(3, 5, 1, 1);
+seasonTable.AddMatch(1, 4, 3, 2);
+
+seasonTable.AddMatch(2, 4, 2, 2);
+seasonTable.AddMatch(0, 3, 1, 1);
+seasonTable.AddMatch(1, 5, 3, 2);
+
+seasonTable.AddMatch(4, 2, 2, 2);
+seasonTable.AddMatch(3, 0, 1, 1);
+seasonTable.AddMatch(5, 1, 3, 2);
 
 seasonTable.Show();
 
 seasonTable.PrintLastFiveMatches();
-
-
-
 
 
 

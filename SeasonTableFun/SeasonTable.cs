@@ -7,14 +7,21 @@ namespace SeasonTableFun
         private readonly List<Match> _matches;
         private readonly Team[] _teams;
 
-        public SeasonTable(Team[] teams)
+        public SeasonTable(params string[] teamNames)  //(Team[] teams)
         {
             _matches = new List<Match>();
-            _teams = teams;
+            _teams = teamNames.Select(n => new Team(n)).ToArray();
         }
 
         public void AddMatch(Match match)
         {
+            _matches.Add(match);
+
+        }
+
+        public void AddMatch(int homeTeamIndex, int awayTeamIndex, int homeGoals, int awayGoals)
+        {
+            var match = new Match(_teams[homeTeamIndex], _teams[awayTeamIndex],homeGoals, awayGoals);
             _matches.Add(match);
 
         }
