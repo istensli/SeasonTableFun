@@ -34,26 +34,28 @@ namespace SeasonTableFun
             Points += points;
         }
 
-        
-        public void AddWin(int goalsScored, int goalsConceded)
+        public void Add(int goalsScored, int goalsConceded)
         {
-            Won++;
-            AddPoints(3);
             NumberOfMatchesPlayed++;
             GoalsScored += goalsScored;
             GoalsConceded += goalsConceded;
+        }
+
+        public void AddWin(int goalsScored, int goalsConceded)
+        {
+            Add(goalsScored, goalsConceded);
+            Won++;
+            AddPoints(3);
             _lastFive.Add('W');
-            if(_lastFive.Count > 5) _lastFive.RemoveAt(0);
+            if (_lastFive.Count > 5) _lastFive.RemoveAt(0);
 
 
         }
 
         public void AddDefeat(int goalsScored, int goalsConceded)
         {
+            Add(goalsScored, goalsConceded);
             Lost++;
-            NumberOfMatchesPlayed++;
-            GoalsScored += goalsScored;
-            GoalsConceded += goalsConceded;
             _lastFive.Add('L');
             if (_lastFive.Count > 5) _lastFive.RemoveAt(0);
 
@@ -61,16 +63,16 @@ namespace SeasonTableFun
         }
         public void AddDraw(int goalsScored, int goalsConceded)
         {
+            Add(goalsScored, goalsConceded);
             Draws++;
             AddPoints(1);
-            NumberOfMatchesPlayed++;
-            GoalsScored += goalsScored;
-            GoalsConceded += goalsConceded;
             _lastFive.Add('D');
             if (_lastFive.Count > 5) _lastFive.RemoveAt(0); //hmm...burde kanskje fjerne alle eldre enn siste 5, ikke bare den siste(hvis det har blitt noe feil..)?
 
 
         }
+
+        
         public string GetLastFive() 
         {
             string lastFive = "";
